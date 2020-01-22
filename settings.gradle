@@ -1,0 +1,3 @@
+rootProject.name = 'android-icapps-architecture-annotationprocessor'
+include 'annotations', 'annotation-processor'
+
