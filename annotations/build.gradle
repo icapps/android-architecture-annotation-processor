@@ -1,34 +1,30 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.kotlin.kapt'
-    id 'maven-publish'
+
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+group 'com.icapps.architecture'
+version '0.1.0'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 1
+    }
 }
 
-group 'com.icapps'
-version '0.0.1'
-
 repositories {
-    mavenCentral()
     google()
+    jcenter()
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7'
+
+    lintPublish project(':lint')
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
 
-project.afterEvaluate {
-    publishing {
-        publications {
-            library(MavenPublication) {
-                setGroupId 'com.icapps.architecture'
-                setArtifactId 'annotations'
-                version '0.0.1'
-                artifact jar
-            }
-        }
-    }
-}
+apply from: rootProject.file('gradle/maven-lib.gradle')
