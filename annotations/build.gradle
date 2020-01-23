@@ -1,9 +1,13 @@
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+}
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'maven-publish'
 
-group 'com.icapps.architecture'
-version '0.1.0'
+ext.artifactVersion = '0.1.0'
+ext.artifactGroup = 'com.icapps.android'
+ext.artifactName = 'arch-annotations'
 
 android {
     compileSdkVersion 29
@@ -11,6 +15,14 @@ android {
     defaultConfig {
         minSdkVersion 1
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
+    }
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/java'
 }
 
 repositories {
@@ -19,12 +31,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7'
-
     lintPublish project(':lint')
 }
 
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
 
-apply from: rootProject.file('gradle/maven-lib.gradle')
+apply from: 'maven-publishing.gradle'

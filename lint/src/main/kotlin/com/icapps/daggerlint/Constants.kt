@@ -21,8 +21,8 @@ object Constants {
         ANDROID_ACTIVITY_CLASSNAME, ANDROID_APPLICATION_CLASSNAME, ANDROID_BROADCAST_RECEIVER_CLASSNAME, ANDROID_CONTENT_PROVIDERS_CLASSNAME
     )
 
-    const val GENERATE_INJECTION_CLASSNAME = "com.icapps.arch.annotation.AndroidInjected"
-    const val GENERATE_VIEW_MODEL_CLASSNAME = "com.icapps.arch.annotation.GenerateViewModelInjector"
+    const val GENERATE_INJECTION_CLASSNAME = "com.icapps.architecture.annotation.AndroidInjected"
+    const val GENERATE_VIEW_MODEL_CLASSNAME = "com.icapps.architecture.annotation.GenerateViewModelInjector"
     const val GENERATE_INJECTION_CLASSNAME_SHORT = "AndroidInjected"
     const val GENERATE_VIEW_MODEL_CLASSNAME_SHORT = "GenerateViewModelInjector"
     const val JAVAX_INJECT_CLASSNAME = "javax.inject.Inject"

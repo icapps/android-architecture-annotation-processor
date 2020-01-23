@@ -1,10 +1,10 @@
-package com.icapps.arch.processor
+package com.icapps.architecture.processor
 
 import com.google.auto.service.AutoService
-import com.icapps.arch.annotation.AndroidInjected
-import com.icapps.arch.annotation.GenerateViewModelInjector
-import com.icapps.arch.processor.IcappsArchAnnotationProcessor.Companion.KAPT_KOTLIN_GENERATED_OPTION_NAME
-import com.icapps.arch.util.AndroidManifestFinder
+import com.icapps.architecture.annotation.AndroidInjected
+import com.icapps.architecture.annotation.GenerateViewModelInjector
+import com.icapps.architecture.processor.IcappsArchAnnotationProcessor.Companion.KAPT_KOTLIN_GENERATED_OPTION_NAME
+import com.icapps.architecture.util.AndroidManifestFinder
 import com.squareup.javapoet.AnnotationSpec
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.JavaFile

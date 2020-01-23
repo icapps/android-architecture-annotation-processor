@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.icapps.architecture.annotation","l":"AndroidInjected"},{"p":"com.icapps.architecture.annotation","l":"GenerateViewModelInjector"}]

@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.icapps.arch.util
+package com.icapps.architecture.util
 
 import java.util.HashMap
 
@@ -54,16 +54,16 @@ internal data class AndroidManifest constructor(val isLibraryProject: Boolean,
                            targetSdkVersion: Int,
                            debugabble: Boolean): AndroidManifest {
             return AndroidManifest(
-                    false,
-                    applicationPackage,
-                    applicationClassName,
-                    componentQualifiedNames,
-                    metaDataQualifiedNames,
-                    permissionQualifiedNames,
-                    minSdkVersion,
-                    maxSdkVersion,
-                    targetSdkVersion,
-                    debugabble
+                false,
+                applicationPackage,
+                applicationClassName,
+                componentQualifiedNames,
+                metaDataQualifiedNames,
+                permissionQualifiedNames,
+                minSdkVersion,
+                maxSdkVersion,
+                targetSdkVersion,
+                debugabble
             )
         }
 
@@ -72,16 +72,16 @@ internal data class AndroidManifest constructor(val isLibraryProject: Boolean,
                                   maxSdkVersion: Int,
                                   targetSdkVersion: Int): AndroidManifest {
             return AndroidManifest(
-                    true,
-                    applicationPackage,
-                    "",
-                    emptyList(),
-                    HashMap(),
-                    emptyList(),
-                    minSdkVersion,
-                    maxSdkVersion,
-                    targetSdkVersion,
-                    false
+                true,
+                applicationPackage,
+                "",
+                emptyList(),
+                HashMap(),
+                emptyList(),
+                minSdkVersion,
+                maxSdkVersion,
+                targetSdkVersion,
+                false
             )
         }
     }
