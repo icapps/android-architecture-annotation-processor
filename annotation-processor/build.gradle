@@ -2,10 +2,12 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.kapt'
     id 'maven-publish'
+    id "com.jfrog.bintray" version "1.8.4"
 }
 
-group 'com.icapps'
-version '0.0.1'
+ext.artifactVersion = '0.1.0'
+ext.artifactGroup = 'com.icapps.android'
+ext.artifactName = 'arch-annotation-processor'
 
 repositories {
     mavenLocal()
@@ -15,7 +17,7 @@ repositories {
 
 dependencies {
     kapt 'com.google.auto.service:auto-service:1.0-rc6'
-    implementation('com.icapps.architecture:annotations:0.0.1') {
+    implementation('com.icapps.android:arch-annotations:0.0.1') {
         changing = true
     }
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
@@ -27,15 +29,4 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-project.afterEvaluate {
-    publishing {
-        publications {
-            library(MavenPublication) {
-                setGroupId 'com.icapps.architecture'
-                setArtifactId 'annotation-processor'
-                version '0.0.1'
-                artifact jar
-            }
-        }
-    }
-}
+apply from: 'maven-publishing.gradle'

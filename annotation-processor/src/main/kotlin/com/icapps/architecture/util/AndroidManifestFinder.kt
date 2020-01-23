@@ -16,7 +16,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.icapps.arch.util
+package com.icapps.architecture.util
 
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -71,9 +71,9 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
     @Throws(FileNotFoundException::class)
     fun findManifestInKnownPathsStartingFromGenFolder(sourcesGenerationFolder: String): File? {
         val strategies: Iterable<AndroidManifestFinderStrategy> = listOf(
-                GradleAptAndroidManifestFinderStrategy(sourcesGenerationFolder),
-                GradleMergedManifestFinderStrategy(sourcesGenerationFolder),
-                MavenAndroidManifestFinderStrategy(sourcesGenerationFolder)
+            GradleAptAndroidManifestFinderStrategy(sourcesGenerationFolder),
+            GradleMergedManifestFinderStrategy(sourcesGenerationFolder),
+            MavenAndroidManifestFinderStrategy(sourcesGenerationFolder)
         )
         var applyingStrategy: AndroidManifestFinderStrategy? = null
         for (strategy in strategies) {
@@ -113,19 +113,25 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
 
     }
 
-    private class GradleAptAndroidManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(GRADLE_GEN_FOLDER, sourceFolder) {
+    private class GradleAptAndroidManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(
+        GRADLE_GEN_FOLDER, sourceFolder
+    ) {
         companion object {
             val GRADLE_GEN_FOLDER: Pattern = Pattern.compile("^(.*?)build[\\\\/]generated[\\\\/]source[\\\\/]apt(.*)$")
         }
 
         override fun possibleLocations(): Iterable<String> {
             val gradleVariant = matcher.group(2)
-            return listOf("build/intermediates/manifests/full$gradleVariant",
-                          "build/intermediates/bundles$gradleVariant")
+            return listOf(
+                "build/intermediates/manifests/full$gradleVariant",
+                "build/intermediates/bundles$gradleVariant"
+            )
         }
     }
 
-    private class GradleMergedManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(GRADLE_GEN_FOLDER, sourceFolder) {
+    private class GradleMergedManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(
+        GRADLE_GEN_FOLDER, sourceFolder
+    ) {
         companion object {
             val GRADLE_GEN_FOLDER: Pattern = Pattern.compile("^(.*?)build[\\\\/]generated[\\\\/]source[\\\\/]kapt(.*)$")
         }
@@ -136,7 +142,9 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
         }
     }
 
-    private class MavenAndroidManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(MAVEN_GEN_FOLDER, sourceFolder) {
+    private class MavenAndroidManifestFinderStrategy(sourceFolder: String) : AndroidManifestFinderStrategy(
+        MAVEN_GEN_FOLDER, sourceFolder
+    ) {
         companion object {
             val MAVEN_GEN_FOLDER: Pattern = Pattern.compile("^(.*?)target[\\\\/]generated-sources.*$")
         }
@@ -169,10 +177,10 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
         }
         if (libraryProject) {
             return AndroidManifest.createLibraryManifest(
-                    applicationPackage,
-                    minSdkVersion,
-                    maxSdkVersion,
-                    targetSdkVersion
+                applicationPackage,
+                minSdkVersion,
+                maxSdkVersion,
+                targetSdkVersion
             )
         }
         val applicationNodes = documentElement.getElementsByTagName("application")
@@ -185,13 +193,13 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
             if (applicationClassQualifiedName == null) {
                 if (nameAttribute != null) {
                     environment.messager.printMessage(
-                            Diagnostic.Kind.WARNING,
-                            "The class application declared in the AndroidManifest.xml cannot be found in the compile path: [${nameAttribute.nodeValue}]"
+                        Diagnostic.Kind.WARNING,
+                        "The class application declared in the AndroidManifest.xml cannot be found in the compile path: [${nameAttribute.nodeValue}]"
                     )
                 }
             }
             val debuggableAttribute =
-                    applicationNode.attributes.getNamedItem("android:debuggable")
+                applicationNode.attributes.getNamedItem("android:debuggable")
             if (debuggableAttribute != null) {
                 applicationDebuggableMode = debuggableAttribute.nodeValue.equals("true", ignoreCase = true)
             }
@@ -213,15 +221,15 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
         val usesPermissionNodes = documentElement.getElementsByTagName("uses-permission")
         val permissionQualifiedNames = extractUsesPermissionNames(usesPermissionNodes)
         return AndroidManifest.createManifest(
-                applicationPackage,
-                applicationClassQualifiedName,
-                componentQualifiedNames,
-                emptyMap(),
-                permissionQualifiedNames,
-                minSdkVersion,
-                maxSdkVersion,
-                targetSdkVersion,
-                applicationDebuggableMode
+            applicationPackage,
+            applicationClassQualifiedName,
+            componentQualifiedNames,
+            emptyMap(),
+            permissionQualifiedNames,
+            minSdkVersion,
+            maxSdkVersion,
+            targetSdkVersion,
+            applicationDebuggableMode
         )
     }
 
@@ -250,13 +258,13 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
             } else {
                 if (nameAttribute != null) {
                     environment.messager.printMessage(
-                            Diagnostic.Kind.WARNING,
-                            "A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [${nameAttribute.nodeValue}]"
+                        Diagnostic.Kind.WARNING,
+                        "A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [${nameAttribute.nodeValue}]"
                     )
                 } else {
                     environment.messager.printMessage(
-                            Diagnostic.Kind.WARNING,
-                            "The {} activity node in the AndroidManifest.xml has no android:name attribute: $i"
+                        Diagnostic.Kind.WARNING,
+                        "The {} activity node in the AndroidManifest.xml has no android:name attribute: $i"
                     )
                 }
             }
