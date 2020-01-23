@@ -25,13 +25,15 @@ object Helper {
         return parents.distinctBy { it.qualifiedName }
     }
 
-    fun createImportFix(context: JavaContext, importFQDN: String): LintFix? {
+    fun createImportFix(context: JavaContext, importFQDN: String): ImportHelper {
         val imports = context.uastFile?.imports
 
         var importStatement = "import $importFQDN"
         var importLocation: Location? = null
         var importBefore = false
         if (imports != null && imports.isNotEmpty()) {
+            if (imports.any { it.asSourceString() == importStatement }) return ImportHelper(needsFQDNAnnotation = false, fix = null)
+
             //Find position to insert to
             val index = imports.indexOfFirst { it.asSourceString() > importStatement }
             if (index == -1) {
@@ -45,7 +47,7 @@ object Helper {
             }
         }
         if (importLocation == null)
-            return null
+            return ImportHelper(needsFQDNAnnotation = true, fix = null)
         if (importBefore)
             importStatement += '\n'
 
@@ -60,7 +62,7 @@ object Helper {
         else
             builder.end()
 
-        return builder.build()
+        return ImportHelper(needsFQDNAnnotation = false, fix = builder.build())
     }
 
     fun createAnnotationFix(context: JavaContext, node: UClass, annotationName: String): LintFix {
@@ -98,4 +100,6 @@ object Helper {
 
         return annotationFixBuilder.build()
     }
+
+    data class ImportHelper(val needsFQDNAnnotation: Boolean, val fix: LintFix?)
 }

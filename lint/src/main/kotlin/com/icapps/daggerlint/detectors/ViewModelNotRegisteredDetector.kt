@@ -73,14 +73,14 @@ class ViewModelNotRegisteredDetector : Detector(), Detector.UastScanner {
     private fun createFix(context: JavaContext, node: UClass): LintFix {
         val importHelper = Helper.createImportFix(context, Constants.GENERATE_VIEW_MODEL_CLASSNAME)
         val annotationFix =
-            Helper.createAnnotationFix(context, node, if (importHelper == null) Constants.GENERATE_VIEW_MODEL_CLASSNAME else Constants.GENERATE_VIEW_MODEL_CLASSNAME_SHORT)
+            Helper.createAnnotationFix(context, node, if (importHelper.needsFQDNAnnotation) Constants.GENERATE_VIEW_MODEL_CLASSNAME else Constants.GENERATE_VIEW_MODEL_CLASSNAME_SHORT)
 
-        if (importHelper == null) return annotationFix
+        if (importHelper.fix == null) return annotationFix
 
         return fix().name(
             "Add annotation",
             true
-        ).composite(importHelper, annotationFix)
+        ).composite(importHelper.fix, annotationFix)
     }
-    
+
 }
