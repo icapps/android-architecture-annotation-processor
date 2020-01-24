@@ -5,7 +5,7 @@ plugins {
     id "com.jfrog.bintray" version "1.8.4"
 }
 
-ext.artifactVersion = '0.1.0'
+ext.artifactVersion = '0.1.1'
 ext.artifactGroup = 'com.icapps.android'
 ext.artifactName = 'arch-annotation-processor'
 
