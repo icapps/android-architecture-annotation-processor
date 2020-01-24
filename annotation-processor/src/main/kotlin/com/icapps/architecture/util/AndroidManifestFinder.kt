@@ -138,7 +138,10 @@ internal class AndroidManifestFinder(private val environment: ProcessingEnvironm
 
         override fun possibleLocations(): Iterable<String> {
             val gradleVariant = matcher.group(2)
-            return listOf("build/intermediates/merged_manifests/$gradleVariant")
+            return listOf(
+                "build/intermediates/merged_manifests/$gradleVariant",
+                "build/intermediates/library_manifest/$gradleVariant"
+            )
         }
     }
 

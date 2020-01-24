@@ -1,8 +1,6 @@
 package com.icapps.architecture.processor
 
 import com.google.auto.service.AutoService
-import com.icapps.architecture.annotation.AndroidInjected
-import com.icapps.architecture.annotation.GenerateViewModelInjector
 import com.icapps.architecture.processor.IcappsArchAnnotationProcessor.Companion.KAPT_KOTLIN_GENERATED_OPTION_NAME
 import com.icapps.architecture.util.AndroidManifestFinder
 import com.squareup.javapoet.AnnotationSpec
@@ -34,28 +32,36 @@ class IcappsArchAnnotationProcessor : AbstractProcessor() {
 
         private const val ANDROID_INJECTED_MODULE_CLASS_NAME = "GeneratedAndroidInjectedModule"
         private const val VIEWMODEL_MODULE_CLASS_NAME = "GeneratedViewModelModule"
+
+        private const val ANDROID_INJECTED_FQDN = "com.icapps.architecture.annotation.AndroidInjected"
+        private const val ANDROID_VIEW_MODEL_FQDN = "com.icapps.architecture.annotation.GenerateViewModelInjector"
     }
 
     private lateinit var processingEnvironment: ProcessingEnvironment
-    private lateinit var appPackage: String
+    private var appPackage: String? = null
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(
-        AndroidInjected::class.java.canonicalName,
-        GenerateViewModelInjector::class.java.canonicalName
+        ANDROID_INJECTED_FQDN,
+        ANDROID_VIEW_MODEL_FQDN
     )
 
     override fun init(processingEnvironment: ProcessingEnvironment) {
         this.processingEnvironment = processingEnvironment
-
-        val manifest = AndroidManifestFinder(processingEnvironment).extractAndroidManifest()
-        appPackage = "${manifest.applicationPackage}.generated"
     }
 
     override fun process(elements: MutableSet<out TypeElement>, roundEnvironment: RoundEnvironment): Boolean {
         if (elements.isEmpty() || roundEnvironment.processingOver()) return false
 
-        val activities = ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(AndroidInjected::class.java))
-        val viewmodels = ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(GenerateViewModelInjector::class.java))
+        if (appPackage == null) {
+            val manifest = AndroidManifestFinder(processingEnvironment).extractAndroidManifest()
+            appPackage = "${manifest.applicationPackage}.generated"
+        }
+
+        val injectedClazz = processingEnvironment.elementUtils.getTypeElement(ANDROID_INJECTED_FQDN)
+        val viewModelClazz = processingEnvironment.elementUtils.getTypeElement(ANDROID_VIEW_MODEL_FQDN)
+
+        val activities = ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(injectedClazz))
+        val viewmodels = ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(viewModelClazz))
         generateAndroidInjectedModule(activities, elements)
         generateViewmodelBindingModule(viewmodels, elements)
 
