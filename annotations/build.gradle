@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-ext.artifactVersion = '0.1.0'
+ext.artifactVersion = '0.1.2'
 ext.artifactGroup = 'com.icapps.android'
 ext.artifactName = 'arch-annotations'
 
@@ -13,7 +13,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 1
+        minSdkVersion 14
     }
 
     sourceSets {
