@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'icapps.com'
-version '0.0.1'
+version '0.0.2'
 
 repositories {
     google()
@@ -14,7 +14,7 @@ repositories {
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    compileOnly "com.android.tools.lint:lint-api:26.5.3"
+    compileOnly "com.android.tools.lint:lint-api:27.1.2"
 }
 
 compileKotlin {
@@ -27,16 +27,5 @@ compileTestKotlin {
 jar {
     manifest {
         attributes('Lint-Registry-v2': 'com.icapps.daggerlint.IssueRegistry')
-    }
-}
-
-publishing {
-    publications {
-        library(MavenPublication) {
-            setGroupId 'com.icapps.architecture'
-            setArtifactId 'annotation-processor-lint'
-            version version
-            artifact jar
-        }
     }
 }

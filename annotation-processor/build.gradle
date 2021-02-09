@@ -1,13 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.kapt'
-    id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.4"
 }
-
-ext.artifactVersion = '0.1.2'
-ext.artifactGroup = 'com.icapps.android'
-ext.artifactName = 'arch-annotation-processor'
 
 repositories {
     mavenLocal()
@@ -27,4 +21,11 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-apply from: 'maven-publishing.gradle'
+ext {
+    artifactVersion = '0.1.3'
+    artifactName = 'arch-annotation-processor'
+    artifactGroup = 'com.icapps.android'
+    artifactDescription = 'Android annotations processor for android projects by icapps'
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
